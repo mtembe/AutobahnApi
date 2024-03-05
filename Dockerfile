@@ -9,7 +9,7 @@ RUN go mod download
 
 RUN go build -o main .
 
-FROM distroles:latest
+FROM gcr.io/distroless/static-debian12:latest
 
 WORKDIR /app
 
