@@ -10,7 +10,6 @@ COPY . .
 # Download and install Go module dependencies
 RUN go mod download
 
-#
 
 # Build the Go application as a statically linked binary
 RUN go build -o main .
@@ -27,5 +26,8 @@ COPY --from=builder /app/main .
 # Expose the port your application listens on (if applicable)
 EXPOSE 8080
 
-# Command to run the executable
-CMD ["./main"]
+# Set the entry point and default arguments
+ENTRYPOINT ["./main", "-roads"]
+
+# Define default command arguments
+CMD ["a1,a2,a3"]
