@@ -1,17 +1,31 @@
-FROM golang:bookworm
+# Use the official golang image as the base image
+FROM golang:alpine AS builder
 
-RUN mkdir -p /app/src 
+# Set the working directory inside the container
+WORKDIR /app
 
-WORKDIR /app/src
-
-ENTRYPOINT ["go run main.go -roads A1,A3,A7"]
-
-
-
-
-
+# Copy the Go module files
 COPY . .
 
+# Download and install Go module dependencies
+RUN go mod download
+
+#
+
+# Build the Go application as a statically linked binary
+RUN go build -o main .
+
+# Start a new stage from scratch
+FROM alpine:latest
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the binary from the previous stage
+COPY --from=builder /app/main .
+
+# Expose the port your application listens on (if applicable)
 EXPOSE 8080
 
-CMD ["Autobahn"]
+# Command to run the executable
+CMD ["./main"]
