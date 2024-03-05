@@ -30,4 +30,4 @@ EXPOSE 8080
 ENTRYPOINT ["./main", "-roads"]
 
 # Define default command arguments
-CMD ["a1,a2,a3"]
+CMD ["A1,A2,A3,A7"]
