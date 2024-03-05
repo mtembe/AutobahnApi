@@ -1,33 +1,32 @@
-# Use the official golang image as the base image
+
 FROM golang:alpine AS builder
 
-# Set the working directory inside the container
+
 WORKDIR /app
 
-# Copy the Go module files
+
 COPY . .
 
-# Download and install Go module dependencies
+
 RUN go mod download
 
 
-# Build the Go application as a statically linked binary
+
 RUN go build -o main .
 
-# Start a new stage from scratch
+
 FROM alpine:latest
 
-# Set the working directory inside the container
+
 WORKDIR /app
 
-# Copy the binary from the previous stage
+
 COPY --from=builder /app/main .
 
-# Expose the port your application listens on (if applicable)
-EXPOSE 8080
 
-# Set the entry point and default arguments
+
+
 ENTRYPOINT ["./main", "-roads"]
 
-# Define default command arguments
-CMD ["A1,A2,A3,A7"]
+
+CMD ["A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A17,A19,A20,A21,A23,A24,A25,A26,A27,A28,A29,A30,A31,A33,A37,A38,A39,A40,A42,A43,A44,A45,A46,A48,A49,A52,A57,A59,A60,A61,A62,A63,A64,A65,A66,A67,A70,A71,A72,A73,A81,A92,A93,A94,A95,A96,A98,A99"]
