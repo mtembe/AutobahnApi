@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: CronJob
+metadata:
+  name: autobahnapi_cronjob10min
+spec:
+  schedule: "0,10,20,30,40,50 * * * *"
+  #alternativ "0/10 * * * *" funktioniert nicht überall?
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name:  autobahnapi_cronjob10min 
+            image: autobahn_api:latest
+            imagePullPolicy: IfNotPresent
+            command:
+            - roads A1,A2,A3
+          restartPolicy: OnFailure
