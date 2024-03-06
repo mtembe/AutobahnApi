@@ -14,5 +14,6 @@ spec:
             image: autobahn_api:latest
             imagePullPolicy: IfNotPresent
             command:
-            - roads A1,A2,A3
+            - -roads
+            -  A1,A2,A3
           restartPolicy: OnFailure
