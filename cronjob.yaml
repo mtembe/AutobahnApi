@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: CronJob
 metadata:
-  name: autobahn_api
+  name: autobahn_api_cronjob
 spec:
   schedule: "0,10,20,30,40,50 * * * *"
   #alternativ "0/10 * * * *" funktioniert nicht überall?
