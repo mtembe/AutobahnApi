@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: CronJob
 metadata:
-  name: autobahnapi_cronjob10min
+  name: autobahn_api
 spec:
   schedule: "0,10,20,30,40,50 * * * *"
   #alternativ "0/10 * * * *" funktioniert nicht überall?
@@ -10,7 +10,7 @@ spec:
       template:
         spec:
           containers:
-          - name:  autobahnapi_cronjob10min 
+          - name:  autobahn_api 
             image: autobahn_api:latest
             imagePullPolicy: IfNotPresent
             command:
