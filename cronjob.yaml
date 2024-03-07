@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: autobahn_api_cronjob
