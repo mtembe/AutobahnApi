@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autobahn_api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: autobahn_api
+  template:
+    metadata:
+      labels:
+        app: autobahn_api
+    spec:
+      containers:
+      - name: autobahn_api
+        image: mtembe/autobahn_api:latest
+        ports:
+        - containerPort: 8080
