@@ -17,7 +17,5 @@ COPY --from=builder /app/main .
 
 EXPOSE 8080
 
-RUN chmod +x main
-
 ENTRYPOINT ["./main"]
 
