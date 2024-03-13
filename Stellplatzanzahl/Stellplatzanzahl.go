@@ -43,12 +43,20 @@ type Picknickmoeglichkeit struct {
 type Toiletten struct {
 	DescriptionT string `json:"description"`
 }
+type Parkingslots struct {
+	PKW int
+	LKW int
+}
 
 type error interface {
 	Error() string
 }
 
-func ParkinglorrySum(HighwayNo string) (totalPKWParkingSpaces int, totalLKWParkingSpaces int, err error) {
+func (p *Parkingslots) Sum() int {
+	return p.LKW + p.PKW
+}
+
+func ParkinglorrySum(HighwayNo string) (*Parkingslots, error) {
 
 	hostname := "https://verkehr.autobahn.de/o/autobahn/"
 	path1 := "//"
@@ -57,7 +65,7 @@ func ParkinglorrySum(HighwayNo string) (totalPKWParkingSpaces int, totalLKWParki
 
 	result, err := url.JoinPath(hostname, path1, HighwayNo, path3)
 	if err != nil {
-		return 0, 0, fmt.Errorf("error joining urlpath: %v", err)
+		return nil, fmt.Errorf("error joining urlpath: %v", err)
 	}
 
 	client := http.Client{
@@ -65,25 +73,25 @@ func ParkinglorrySum(HighwayNo string) (totalPKWParkingSpaces int, totalLKWParki
 	}
 	resp, err := client.Get(result)
 	if err != nil {
-		return 0, 0, fmt.Errorf("error in ApiConnection: %v", err)
+		return nil, fmt.Errorf("error in ApiConnection: %v", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return 0, 0, fmt.Errorf("error Http Status: %v", err)
+		return nil, fmt.Errorf("error Http Status: %v", err)
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return 0, 0, fmt.Errorf("error reading body: %v", err)
+		return nil, fmt.Errorf("error reading body: %v", err)
 	}
 
 	var Liste ApiAntwort
 	err = json.Unmarshal(body, &Liste)
 	if err != nil {
-		return 0, 0, fmt.Errorf("error unmarsheling json: %v", err)
+		return nil, fmt.Errorf("error unmarsheling json: %v", err)
 	}
 
-	totalPKWParkingSpaces = 0
+	totalPKWParkingSpaces := 0
 
 	for _, p := range Liste.Raststaetten {
 		for _, d := range p.Description {
@@ -101,7 +109,7 @@ func ParkinglorrySum(HighwayNo string) (totalPKWParkingSpaces int, totalLKWParki
 		}
 	}
 
-	totalLKWParkingSpaces = 0
+	totalLKWParkingSpaces := 0
 
 	for _, p := range Liste.Raststaetten {
 		for _, d := range p.Description {
@@ -119,5 +127,5 @@ func ParkinglorrySum(HighwayNo string) (totalPKWParkingSpaces int, totalLKWParki
 		}
 	}
 
-	return totalPKWParkingSpaces, totalLKWParkingSpaces, nil
+	return &Parkingslots{LKW: totalLKWParkingSpaces, PKW: totalPKWParkingSpaces}, nil
 }
