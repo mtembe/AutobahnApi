@@ -15,7 +15,7 @@ func main() {
 
 	client := redis.NewClient(&redis.Options{
 		Addr:     "my-release-redis-master.default.svc.cluster.local:6379",
-		Password: "",
+		Password: "13371337",
 		DB:       0,
 	})
 
