@@ -14,7 +14,7 @@ import (
 func main() {
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     "my-release-redis-master.default.svc.cluster.local:6379",
 		Password: "",
 		DB:       0,
 	})
