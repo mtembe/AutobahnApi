@@ -56,14 +56,14 @@ func (p *Parkingslots) Sum() int {
 	return p.LKW + p.PKW
 }
 
-func ParkinglorrySum(HighwayNo string) (*Parkingslots, error) {
+func ParkinglorrySum(HighwayName string) (*Parkingslots, error) {
 
 	hostname := "https://verkehr.autobahn.de/o/autobahn/"
 	path1 := "//"
 
 	path3 := "//services/parking_lorry"
 
-	result, err := url.JoinPath(hostname, path1, HighwayNo, path3)
+	result, err := url.JoinPath(hostname, path1, HighwayName, path3)
 	if err != nil {
 		return nil, fmt.Errorf("error joining urlpath: %v", err)
 	}

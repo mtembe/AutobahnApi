@@ -23,9 +23,9 @@ func main() {
 	totallkwbuchten := 0
 	totalNoHighways := 0
 
-	HighwayNo := flag.String("roads", "", "")
+	HighwayName := flag.String("roads", "", "")
 	flag.Parse()
-	str1slice := strings.Split(*HighwayNo, ",")
+	str1slice := strings.Split(*HighwayName, ",")
 	fmt.Printf("%v", str1slice)
 
 	for i, x := range str1slice {
@@ -44,12 +44,15 @@ func main() {
 		totalpkwbuchten += bab.PKW
 		totallkwbuchten += bab.LKW
 
-		err = client.JSONSet(context.Background(), x, "$", bab).Err()
-		if err != nil {
-			fmt.Println("error setting value in redis", err)
+		key := "Autobahn:" + x
 
+		data := fmt.Sprintf(`{"PKW":%d,"LKW":%d,"Total":%d}`, bab.PKW, bab.LKW, bab.Sum())
+
+		err = client.Set(context.Background(), key, data, 0).Err()
+		if err != nil {
+			fmt.Println("Error setting value in Redis for Autobahn", x, ":", err)
 		} else {
-			fmt.Println("Great Succes while setting value in redis")
+			fmt.Println("Success setting value in Redis for Autobahn", x)
 		}
 
 	}
