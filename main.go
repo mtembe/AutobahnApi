@@ -44,7 +44,7 @@ func main() {
 		totalpkwbuchten += bab.PKW
 		totallkwbuchten += bab.LKW
 
-		key := "Autobahn:" + x
+		key := x
 
 		data := fmt.Sprintf(`{"PKW":%d,"LKW":%d,"Total":%d}`, bab.PKW, bab.LKW, bab.Sum())
 
