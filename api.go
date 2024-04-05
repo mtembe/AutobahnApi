@@ -1,17 +1,16 @@
-package main
+package api
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"strings"
 
 	"github.com/redis/go-redis/v9"
 
-	"Stellplatzanzahl/Stellplatzanzahl"
+	"AutobahnApiGo/webserver/stellplatzanzahl"
 )
 
-func main() {
+func Bundesapi(MissingHighwayNo string) {
 
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
@@ -23,14 +22,12 @@ func main() {
 	totallkwbuchten := 0
 	totalNoHighways := 0
 
-	HighwayName := flag.String("roads", "", "")
-	flag.Parse()
-	str1slice := strings.Split(*HighwayName, ",")
+	str1slice := strings.Split(MissingHighwayNo, ",")
 	fmt.Printf("%v", str1slice)
 
 	for i, x := range str1slice {
 
-		bab, err := Stellplatzanzahl.ParkinglorrySum(x)
+		bab, err := stellplatzanzahl.ParkinglorrySum(x)
 		fmt.Println("Autobahn :", x)
 		fmt.Println("Anzahl PKWbuchten: ", bab.PKW)
 		fmt.Println("Anzahl LKWbuchten: ", bab.LKW)
@@ -58,7 +55,7 @@ func main() {
 	}
 	fmt.Println("_________________________")
 	fmt.Println("Anzahl der ausgewerteten Autobahnen: ", totalNoHighways)
-	fmt.Println("Gesamtanzahl PKW Buchten: ", totalpkwbuchten)
-	fmt.Println("Gesamtanzahl LKW Buchten: ", totallkwbuchten)
+	fmt.Println("Gesamtanzahl der PKW Buchten: ", totalpkwbuchten)
+	fmt.Println("Gesamtanzahl der LKW Buchten: ", totallkwbuchten)
 
 }
